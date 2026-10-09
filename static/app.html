@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feels — Pune Outdoor Soundtrack Matcher</title>
+  <meta name="description" content="Translating your recent Spotify soundtrack into real outdoor trails, lake sanctuaries, and viewpoints in Pune using local Qwen 2.5 Coder 7B and SerpApi.">
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23142F20'><path d='M12 2a10 10 0 0 0-10 10c0 5.52 4.48 10 10 10s10-4.48 10-10A10 10 0 0 0 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v.93zm6.9-2.54A7.95 7.95 0 0 1 12 20v-2c0-.55-.45-1-1-1h-2v-2h4c.55 0 1-.45 1-1v-1.5l3.5 3.5c-.32.53-.7 1.02-1.1 1.46z'/></svg>">
+</head>
+<body>
+
+  <!-- Top Announcement Ticker -->
+  <div class="ticker-banner" role="region" aria-label="Status Ticker">
+    <div class="ticker-inner">
+      ✦ LOCAL AI RUNNING: QWEN 2.5 CODER 7B VIA OLLAMA ✦ LOCATION DISCOVERY: SERPAPI GROUNDED IN PUNE ✦ MAX 15 REFRESHES / DAY ✦ PRIVATE DATA FLOW ✦ FEELS ✦ LOCAL AI RUNNING: QWEN 2.5 CODER 7B VIA OLLAMA ✦ LOCATION DISCOVERY: SERPAPI GROUNDED IN PUNE ✦
+    </div>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="header-nav">
+    <div class="container nav-wrapper">
+      <a href="/" class="brand-logo" id="brand-logo" title="Back to Feels Landing Page">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#142F20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+          </svg>
+        </div>
+        <span class="brand-title">FEELS.</span>
+      </a>
+
+
+      <div class="nav-badges">
+        <div class="pill-badge soft-green" id="model-pill">
+          <span class="status-dot pulsing" id="model-status-dot"></span>
+          <span id="model-text">⚡ Qwen 2.5 Coder 7B (Local)</span>
+        </div>
+
+        <div class="pill-badge active-lime" id="quota-pill">
+          <span id="quota-badge-text">15 / 15 Refreshes Left</span>
+        </div>
+
+        <button class="btn btn-sm" id="nav-disconnect-btn" style="display: none;">
+          Disconnect
+        </button>
+        <button class="btn btn-sm btn-primary" id="nav-connect-btn" style="display: none;">
+          Connect Spotify
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: 30px; padding-bottom: 60px;">
+
+    <!-- Unauthenticated Callout (Only shown if user enters /app without Spotify session and without demo) -->
+    <section id="auth-prompt-card" style="display: none; margin: 40px auto; max-width: 720px;">
+      <div class="ai-mood-card" style="text-align: center; padding: 48px 32px;">
+        <div class="pill-badge orange" style="margin-bottom: 16px;">Authentication Required</div>
+        <h2 class="mood-title" style="font-size: 2.2rem; margin-bottom: 16px;">Connect Your Spotify Soundtrack</h2>
+        <p class="mood-summary" style="font-size: 1.05rem; margin-bottom: 32px;">
+          To translate your listening history into Pune outdoor spots, authorize access to your recently played tracks, or launch an instant demo with a sample session.
+        </p>
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+          <a href="/auth/login" class="btn btn-primary" id="prompt-connect-btn">
+            Connect Spotify Account
+          </a>
+          <button class="btn btn-lime" id="prompt-demo-btn">
+            ⚡ Try Instant Demo (Sample Tracks)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Analysis Step Progress Container -->
+    <section class="analysis-progress-card" id="analysis-progress" role="status" aria-live="polite">
+      <div class="progress-header">
+        <div>
+          <div class="progress-title" id="progress-header-title">Translating Music into Movement</div>
+          <div style="font-size: 0.95rem; color: var(--text-muted); margin-top: 4px;" id="progress-header-desc">
+            Your music never leaves your laptop. Local Qwen 2.5 Coder 7B is synthesizing tempo, dynamics, and atmospheric resonance.
+          </div>
+        </div>
+        <div class="pill-badge active-lime" id="progress-status-badge">Processing</div>
+      </div>
+
+      <div class="progress-steps">
+        <div class="step-item active" id="step-1">
+          <div class="step-num">STEP 01</div>
+          <div class="step-name">Reading 10 Recent Tracks</div>
+        </div>
+        <div class="step-item" id="step-2">
+          <div class="step-num">STEP 02</div>
+          <div class="step-name">Qwen 2.5 Coder Inference</div>
+        </div>
+        <div class="step-item" id="step-3">
+          <div class="step-num">STEP 03</div>
+          <div class="step-name">SerpAPI Pune Discovery</div>
+        </div>
+        <div class="step-item" id="step-4">
+          <div class="step-num">STEP 04</div>
+          <div class="step-name">Curating Grounded Spots</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Active Results Container (Revealed once data finishes processing) -->
+    <section id="results-section" style="display: none;">
+
+      <!-- 1. Recent Tracks Strip -->
+      <div class="section-wrapper" style="margin-top: 10px;">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Your Recent Soundtrack</h2>
+            <div class="section-subtitle">10 tracks fetched once today • Cached locally in SQLite</div>
+          </div>
+          <span class="pill-badge soft-green" id="tracks-cache-badge">Cached for Today</span>
+        </div>
+
+        <div class="tracks-strip-container" id="tracks-container">
+          <!-- Dynamically populated cassette cards -->
+        </div>
+      </div>
+
+      <!-- 2. AI Mood Profile Card -->
+      <div class="ai-mood-card" id="mood-card">
+        <div class="mood-card-badge">
+          <span class="pill-badge orange" id="energy-level-badge">HIGH ENERGY</span>
+        </div>
+        <h2 class="mood-title" id="mood-title-text">Atmospheric Cadence</h2>
+        <p class="mood-summary" id="mood-summary-text">
+          Synthesizing sonic dynamics and rhythm to discover matching open spaces in Pune.
+        </p>
+
+        <div class="mood-meta-row" id="mood-qualities-row">
+          <!-- Dynamically injected qualities -->
+        </div>
+
+        <div class="mood-reasoning-box" id="mood-reasoning-text">
+          <!-- AI grounded reasoning -->
+        </div>
+      </div>
+
+      <!-- 3. Curated Pune Destinations -->
+      <div class="section-wrapper">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Curated Pune Destinations</h2>
+            <div class="section-subtitle">Real open spaces matched to your soundtrack</div>
+          </div>
+          <span class="pill-badge active-lime" id="places-count-badge">3 Curated Places</span>
+        </div>
+
+        <div class="recommendations-grid" id="places-grid">
+          <!-- Dynamically populated place cards -->
+        </div>
+      </div>
+
+      <!-- Floating Bottom Control & Quota Bar -->
+      <div class="control-bar" id="control-bar">
+        <div class="quota-indicator">
+          <div class="quota-meter">
+            <div class="quota-fill" id="quota-meter-fill"></div>
+          </div>
+          <span id="quota-bottom-text">14 / 15 Refreshes Remaining Today</span>
+        </div>
+
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <button class="btn btn-lime" id="refresh-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            Discover Different Places
+          </button>
+          <button class="btn btn-sm" id="disconnect-btn">
+            Disconnect
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Error / Alert Card -->
+    <section id="error-card" style="display: none; margin: 40px 0;">
+      <div class="ai-mood-card" style="border-color: var(--accent-orange);">
+        <div class="pill-badge orange" style="margin-bottom: 12px;">Notice</div>
+        <h2 class="mood-title" id="error-title">Unable to Load Recommendations</h2>
+        <p class="mood-summary" id="error-message"></p>
+        <div style="margin-top: 20px; display: flex; gap: 12px;">
+          <button class="btn btn-primary" id="error-action-btn">Try Again</button>
+          <button class="btn btn-lime" id="error-demo-btn">Switch to Instant Demo</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Setup Instructions Modal -->
+  <div class="modal-overlay" id="setup-modal">
+    <div class="modal-content">
+      <h3 class="modal-title">Spotify Setup Required</h3>
+      <div class="modal-body">
+        <p>To authorize with your real Spotify account, add your credentials in <code>.env</code>:</p>
+        <div class="code-box">
+SPOTIFY_CLIENT_ID="your_client_id"
+SPOTIFY_CLIENT_SECRET="your_client_secret"
+SPOTIFY_REDIRECT_URI="http://127.0.0.1:8000/auth/callback"
+        </div>
+        <p style="margin-top: 10px;">
+          Make sure <strong>http://127.0.0.1:8000/auth/callback</strong> is added to your Redirect URIs in the <a href="https://developer.spotify.com/dashboard" target="_blank" style="color: var(--accent-orange); font-weight: 700;">Spotify Developer Dashboard</a>.
+        </p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-lime" id="modal-sample-btn">Run Instant Demo Instead</button>
+        <button class="btn btn-sm" id="modal-close-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Disconnect Confirmation Modal -->
+  <div class="modal-overlay" id="disconnect-modal">
+    <div class="modal-content">
+      <h3 class="modal-title">Disconnect Account?</h3>
+      <div class="modal-body">
+        <p>This will permanently wipe:</p>
+        <ul style="margin: 12px 0 12px 24px;">
+          <li>Your stored Spotify OAuth access & refresh tokens</li>
+          <li>Cached listening history from local SQLite</li>
+          <li>Your recommendation history and session cookies</li>
+        </ul>
+        <p>You can re-connect anytime.</p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-orange" id="confirm-disconnect-btn">Yes, Disconnect & Wipe Data</button>
+        <button class="btn btn-sm" id="cancel-disconnect-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <footer style="margin-top: auto; padding: 40px 0; border-top: var(--border-width) solid var(--border-ink); background-color: var(--bg-surface-secondary);">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+      <div>
+        <strong>FEELS.</strong> • Hacktoberfest 2026 Dev Challenge ("Touch Grass" Theme)
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">
+          Built with Ollama (qwen2.5-coder:7b), FastAPI, SerpAPI, and Spotify Web API.
+        </div>
+      </div>
+
+
+      <div style="font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700;">
+        📍 Scope: Pune, Maharashtra
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

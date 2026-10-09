@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feels — Soundtracks for Getting into the World</title>
+  <meta name="description" content="Local open-weight AI (Qwen 2.5 Coder 7B) turns your recent Spotify listening history into outdoor destinations in Pune, India. Built for Hacktoberfest 2026.">
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23142F20'><path d='M12 2a10 10 0 0 0-10 10c0 5.52 4.48 10 10 10s10-4.48 10-10A10 10 0 0 0 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v.93zm6.9-2.54A7.95 7.95 0 0 1 12 20v-2c0-.55-.45-1-1-1h-2v-2h4c.55 0 1-.45 1-1v-1.5l3.5 3.5c-.32.53-.7 1.02-1.1 1.46z'/></svg>">
+</head>
+<body>
+
+  <!-- Top Announcement Ticker -->
+  <div class="ticker-banner" role="region" aria-label="Hacktoberfest Announcements">
+    <div class="ticker-inner">
+      ✦ HACKTOBERFEST 2026 DEV CHALLENGE ✦ THEME: TOUCH GRASS ✦ APP: FEELS ✦ LOCAL OPEN-WEIGHT AI: QWEN 2.5 CODER 7B VIA OLLAMA ✦ LOCATION DISCOVERY: SERPAPI GROUNDED IN PUNE ✦ SPOTIFY OAUTH ✦ ZERO CLOUD LLMS ✦ PRIVACY FIRST ✦ 15 DAILY REFRESH BUDGET ✦ FEELS ✦
+    </div>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="header-nav">
+    <div class="container nav-wrapper">
+      <a href="/" class="brand-logo" id="brand-logo">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#142F20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+          </svg>
+        </div>
+        <span class="brand-title">FEELS.</span>
+      </a>
+
+
+      <div class="nav-badges">
+        <div class="pill-badge soft-green" id="model-pill">
+          <span class="status-dot pulsing" id="model-status-dot"></span>
+          <span id="model-text">⚡ Qwen 2.5 Coder 7B (Local)</span>
+        </div>
+
+        <div class="pill-badge active-lime">
+          <span>15 / 15 Daily Quota</span>
+        </div>
+
+        <button class="btn btn-sm" id="nav-auth-btn">
+          Connect Spotify
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero-section">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="hero-tag">Pune, Maharashtra • Outdoor Soundtracks</div>
+          <h1 class="hero-title">
+            Where your music meets the <span>open sky.</span>
+          </h1>
+          <p class="hero-description">
+            A soundtrack for getting out of your head and into Pune's open air. Your recent Spotify listening history is analyzed entirely offline by our local Qwen 2.5 Coder 7B model — translating energy, rhythm, and acoustic texture into real hill ridges, lake wetlands, and forest paths.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="hero-primary-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.477 2 2 6.477 2 12c0 5.524 4.477 10 10 10s10-4.476 10-10c0-5.523-4.477-10-10-10zm4.586 14.424c-.18.295-.563.387-.857.207-2.35-1.435-5.308-1.76-8.793-.963-.335.077-.67-.133-.746-.467-.077-.334.132-.67.467-.746 3.808-.87 7.076-.5 9.722 1.112.294.18.386.562.207.857zm1.226-2.723c-.227.37-.714.485-1.084.258-2.69-1.654-6.79-2.134-9.972-1.168-.415.126-.856-.11-1.01-.525-.126-.416.11-.856.525-1.01 3.633-1.103 8.147-.565 11.283 1.36.37.228.486.715.258 1.085zm.106-2.835C14.692 8.94 9.388 8.766 6.326 9.695c-.495.15-1.02-.132-1.17-.626-.15-.494.133-1.02.627-1.17 3.525-1.07 9.377-.866 13.11 1.35.445.264.59.84.327 1.285-.264.444-.84.59-1.284.327z"/>
+              </svg>
+              Connect Spotify Account
+            </button>
+            <button class="btn btn-lime" id="hero-demo-btn">
+              ⚡ Try Sample Session (Instant Demo)
+            </button>
+          </div>
+
+          <div class="hero-guarantees">
+            <div class="guarantee-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              100% Offline AI Inference
+            </div>
+            <div class="guarantee-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              SerpAPI Grounded Pune Places
+            </div>
+            <div class="guarantee-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              15 Refreshes / Day Cap
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Hero Visual Card with Editorial Arched Frame -->
+        <div class="hero-visual-card">
+          <div class="sticker-badge">GET OUTSIDE ↗</div>
+          <div class="stamp-emblem">
+            <span>THE</span>
+            <strong>FEELS</strong>
+            <span>PUNE '26</span>
+          </div>
+
+          <div class="arch-image-frame">
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1000&q=80" alt="Scenic green hill vista in Pune" id="hero-img">
+          </div>
+        </div>
+      </div>
+
+      <!-- Stat Boxes Grid -->
+      <div class="stats-banner">
+        <div class="stat-box">
+          <div class="stat-num">10</div>
+          <div class="stat-label">Tracks Read (Once/Day)</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Private Local Model</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">15 / 15</div>
+          <div class="stat-label">Refreshes Allowed / Day</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">PUNE</div>
+          <div class="stat-label">Local Discovery Scope</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section-wrapper" style="margin-top: 80px;">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">01 / How It Works</h2>
+          <div class="section-subtitle">Three deliberate steps designed to get you off the screen</div>
+        </div>
+        <span class="pill-badge active-lime">Architecture</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+        <div class="stat-box" style="text-align: left; padding: 28px;">
+          <div class="pill-badge soft-green" style="margin-bottom: 16px;">Step 01</div>
+          <h3 style="font-family: var(--font-display); font-size: 1.4rem; margin-bottom: 10px;">Listen & Authorize</h3>
+          <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6;">
+            Connect your Spotify account. Feels fetches your 10 most recently played tracks once per calendar day and caches them in local SQLite. We never poll your history repeatedly.
+          </p>
+        </div>
+
+        <div class="stat-box" style="text-align: left; padding: 28px;">
+          <div class="pill-badge active-lime" style="margin-bottom: 16px;">Step 02</div>
+          <h3 style="font-family: var(--font-display); font-size: 1.4rem; margin-bottom: 10px;">Local Qwen Inference</h3>
+          <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6;">
+            Your laptop's local <strong>qwen2.5-coder:7b</strong> model synthesizes tempo, energy level, and emotional texture into a structured outdoor mood profile. Your music never touches a cloud LLM.
+          </p>
+        </div>
+
+        <div class="stat-box" style="text-align: left; padding: 28px;">
+          <div class="pill-badge orange" style="margin-bottom: 16px;">Step 03</div>
+          <h3 style="font-family: var(--font-display); font-size: 1.4rem; margin-bottom: 10px;">Grounded Pune Spots</h3>
+          <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6;">
+            SerpApi queries Google Maps for real, verified places in Pune matching the mood profile. You get genuine trails, lake sanctuaries, and viewpoints with verified ratings and Google Maps directions.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Banner -->
+    <section style="background-color: var(--accent-lime); border: var(--border-width) solid var(--border-ink); border-radius: var(--radius-md); padding: 48px; box-shadow: var(--shadow-lg); margin: 80px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px;">
+      <div>
+        <h2 style="font-family: var(--font-display); font-size: 2.2rem; line-height: 1.1; margin-bottom: 8px;">
+          Ready to trade your screen for the open sky?
+        </h2>
+        <p style="font-size: 1.05rem; color: var(--border-ink); font-weight: 500;">
+          Launch the app now with your Spotify account or test the live Qwen 2.5 Coder pipeline with a sample session.
+        </p>
+      </div>
+
+      <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+        <a href="/app" class="btn btn-primary">
+          Launch Feels App →
+        </a>
+        <a href="/app?demo=true" class="btn btn-sm" style="background-color: var(--bg-card);">
+          Instant Demo Mode
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Setup Instructions Modal -->
+  <div class="modal-overlay" id="setup-modal">
+    <div class="modal-content">
+      <h3 class="modal-title">Spotify Setup Required</h3>
+      <div class="modal-body">
+        <p>To authorize with your real Spotify account, add your credentials in <code>.env</code>:</p>
+        <div class="code-box">
+SPOTIFY_CLIENT_ID="your_client_id"
+SPOTIFY_CLIENT_SECRET="your_client_secret"
+SPOTIFY_REDIRECT_URI="http://127.0.0.1:8000/auth/callback"
+        </div>
+        <p style="margin-top: 10px;">
+          Make sure <strong>http://127.0.0.1:8000/auth/callback</strong> is added to your Redirect URIs in the <a href="https://developer.spotify.com/dashboard" target="_blank" style="color: var(--accent-orange); font-weight: 700;">Spotify Developer Dashboard</a>.
+        </p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-lime" id="modal-sample-btn">Run Instant Demo Instead</button>
+        <button class="btn btn-sm" id="modal-close-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <footer style="margin-top: auto; padding: 40px 0; border-top: var(--border-width) solid var(--border-ink); background-color: var(--bg-surface-secondary);">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+      <div>
+        <strong>FEELS.</strong> • Hacktoberfest 2026 Dev Challenge ("Touch Grass" Theme)
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">
+          Built with Ollama (qwen2.5-coder:7b), FastAPI, SerpAPI, and Spotify Web API.
+        </div>
+      </div>
+
+
+      <div style="font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700;">
+        📍 Scope: Pune, Maharashtra
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/js/landing.js"></script>
+</body>
+</html>

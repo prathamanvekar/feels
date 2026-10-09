@@ -38,9 +38,24 @@ Here is a walkthrough of Feels in action, showing the Spotify authorization, the
 {% github prathamanvekar/feels %}
 
 ## How I Built It
-The backend is built with **FastAPI** in Python, paired with a tactile editorial frontend implemented using semantic HTML, Vanilla CSS, and modern JavaScript. When users open the app, a real-time four-stage status pipeline visualizes the progress as tracks are fetched, analyzed on-device, queried spatially, and curated.
+The system is designed as an end-to-end pipeline connecting audio streaming telemetry, private on-device reasoning, and grounded spatial exploration. When users open the app, a real-time four-stage status pipeline visualizes the progress as tracks are fetched, analyzed on-device, queried spatially, and curated:
 
-To translate music into outdoor settings, Feels runs **Qwen 2.5 Coder 7B** locally via **Ollama** on localhost port 11434. Instead of unstructured open-ended completions, the model is constrained to output a strict JSON schema containing acoustic energy levels, dominant emotional qualities, and targeted spatial search queries:
+```mermaid
+flowchart TD
+    Browser["Web Interface (Vanilla HTML/CSS/JS)"] -->|1. OAuth Login| Backend["FastAPI Backend (:8000)"]
+    Backend -->|2. Exchange Auth Code| Spotify["Spotify Web API (Recently Played)"]
+    Spotify -->|3. 10 Recent Tracks (1x/Day)| Backend
+    Backend -->|4. Cache Tracks & Metadata| DB["SQLite WAL Database (feels.db)"]
+    Backend -->|5. Structured Prompt| Ollama["Local Ollama Engine (:11434)"]
+    Ollama -->|6. On-Device Qwen 2.5 Inference| Backend
+    Backend -->|7. Grounded Search Query| SerpApi["SerpApi (Google Maps Engine)"]
+    SerpApi -->|8. Verified Spots & Coordinates| Backend
+    Backend -->|9. Curated Recommendations| Browser
+```
+
+Data ingestion begins with the **Spotify Web API**, authenticating users via OAuth 2.0 with the `user-read-recently-played` scope. Rather than polling continuously, Feels retrieves your ten most recently played tracks at most once per calendar day. The backend extracts essential track attributes, artist metadata, and timestamps to evaluate pacing and acoustic density while keeping external requests to a minimum. These tracks are hashed and stored in an embedded SQLite database (`feels.db`), ensuring that subsequent refreshes throughout the day never spam Spotify servers.
+
+To translate raw music tracks into an outdoor setting, Feels runs **Qwen 2.5 Coder 7B** locally through **Ollama** on localhost port 11434. Instead of open-ended conversational completions, the model is constrained to output a strict JSON schema containing acoustic energy levels, dominant emotional descriptors, and targeted spatial search queries:
 
 ```python
 # Querying local Ollama with JSON schema enforcement and defensive extraction
@@ -56,9 +71,7 @@ async with httpx.AsyncClient(timeout=60.0) as client:
     analysis = extract_and_validate_json(response.json().get("response", ""))
 ```
 
-Those environmental queries feed into **SerpApi's Google Maps engine** to retrieve genuine physical places with verified ratings, reviews, and coordinates. All session records, listening history hashes, and rate metrics persist in an embedded **SQLite database** (`feels.db`) running in WAL mode. The system hashes track fingerprints to prevent duplicate inferences, caches normalized search queries to conserve API usage, and tracks served locations so subsequent refreshes cycle to fresh outdoor spots.
-
-For cloud hosting and continuous deployment, Feels includes a native `render.yaml` blueprint. The application is configured to deploy seamlessly to **Render** as a Python web service with automatic dependency installation, persistent environment variables, and live health monitoring via `/api/health`.
+Those environmental queries feed directly into **SerpApi's Google Maps engine** to retrieve genuine physical places with verified ratings, reviews, and geographic coordinates. The SQLite cache deduplicates visited spots so each refresh rotates to fresh outdoor locations. For cloud hosting and continuous deployment, Feels includes a native `render.yaml` blueprint, allowing it to deploy seamlessly to **Render** as a Python web service with automatic dependency installation, persistent environment variables, and live health monitoring via `/api/health`.
 
 ## Why Does Open Innovation Matter?
 Listening history is personal behavioral telemetry. What someone plays during late-night debugging or high-pressure sprints reflects their emotional state, stress levels, and daily habits. Routing raw listening history to third-party commercial AI providers exposes private behavioral patterns to corporate tracking pipelines. Running an open-weight model locally ensures that private listening data never leaves the developer's laptop, transmitting only generalized, non-identifying outdoor search terms to map services.
